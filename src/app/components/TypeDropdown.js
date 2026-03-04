@@ -5,9 +5,9 @@ import { typeIconMap } from "@/app/airportData";
 
 /**
  * Havalimanı tipine göre çoklu seçim dropdown'u.
- * @param {{ selected: string[], onToggle: (type: string) => void }} props
+ * @param {{ selected: string[], onToggle: (type: string) => void, visibleCount: number }} props
  */
-export default function TypeDropdown({ selected, onToggle }) {
+export default function TypeDropdown({ selected, onToggle, visibleCount }) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -17,6 +17,11 @@ export default function TypeDropdown({ selected, onToggle }) {
         className="px-4 py-2 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm flex items-center gap-2"
       >
         ✈️ Tip{selected.length > 0 && ` (${selected.length})`}
+        {visibleCount !== undefined && (
+          <span className="bg-blue-500 text-white text-xs rounded-full px-2 py-0.5">
+            {visibleCount.toLocaleString("tr-TR")}
+          </span>
+        )}
         <span className="text-xs">▼</span>
       </button>
 

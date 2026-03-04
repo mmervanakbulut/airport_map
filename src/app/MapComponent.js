@@ -1,12 +1,10 @@
 "use client";
 
-import { useMemo, useCallback } from "react";
+import { useMemo } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { useRouter } from "next/navigation";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
-import worldGeoJson from "@/app/world.geojson.json";
 import { allAirports, typeIconMap, countryNames } from "@/app/airportData";
 
 // Leaflet icon'ları modül yüklenirken bir kez oluşturulur
@@ -37,8 +35,6 @@ export default function MapComponent({
   selectedTypes = ["large_airport"],
   selectedCountries = [],
 }) {
-  const router = useRouter();
-
   const visibleAirports = useMemo(
     () =>
       allAirports.filter(
@@ -49,25 +45,18 @@ export default function MapComponent({
     [selectedTypes, selectedCountries]
   );
 
-  // const onCountryClick = useCallback(
-  //   (feature, layer) => {
-  //     layer.on("click", () => router.push(`/${feature.properties.ISO_A2}`));
-  //   },
-  //   [router]
-  // );
-
   return (
     <MapContainer
-      center={[20, 0]}
-      zoom={2}
+      key="map"
+      center={[39, 35]}
+      zoom={6}
       style={{ height: "100%", width: "100%" }}
       preferCanvas={true}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      {/* <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" /> */}
 
-      {/* <GeoJSON data={worldGeoJson} onEachFeature={onCountryClick} /> */}
-
-      <MarkerClusterGroup chunkedLoading>
+      <MarkerClusterGroup chunkedLoading disableClusteringAtZoom={0}>
         {visibleAirports.map((airport) => (
           <Marker
             key={airport.iata_code ?? airport.id}

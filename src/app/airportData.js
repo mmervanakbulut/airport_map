@@ -27,3 +27,38 @@ export const countryList = [
   .filter(Boolean)
   .map((code) => ({ code, name: countryNames.of(code) ?? code }))
   .sort((a, b) => a.name.localeCompare(b.name, "tr"));
+
+
+export const greenPassportCountries = [
+  // Schengen
+  { code: "DE", days: 90, region: "Schengen" },
+  { code: "FR", days: 90, region: "Schengen" },
+  { code: "IT", days: 90, region: "Schengen" },
+  { code: "ES", days: 90, region: "Schengen" },
+  { code: "GR", days: 90, region: "Schengen" },
+  { code: "NL", days: 90, region: "Schengen" },
+  { code: "CH", days: 90, region: "Schengen" },
+  // Avrupa (Schengen Dışı)
+  { code: "BA", days: 90, region: "Avrupa" },
+  { code: "RS", days: 90, region: "Avrupa" },
+  { code: "ME", days: 90, region: "Avrupa" },
+  { code: "AL", days: 90, region: "Avrupa" },
+  { code: "GE", days: 365, region: "Avrupa" },
+  { code: "UA", days: 90, region: "Avrupa" },
+  // Asya & Orta Doğu
+  { code: "JP", days: 90, region: "Asya" },
+  { code: "KR", days: 90, region: "Asya" },
+  { code: "SG", days: 90, region: "Asya" },
+  { code: "AE", days: 90, region: "Orta Doğu" },
+  { code: "QA", days: 90, region: "Orta Doğu" },
+  { code: "AZ", days: 90, region: "Asya" },
+  // Amerika
+  { code: "BR", days: 90, region: "Amerika" },
+  { code: "AR", days: 90, region: "Amerika" },
+  { code: "CO", days: 90, region: "Amerika" },
+  // Afrika
+  { code: "MA", days: 90, region: "Afrika" },
+  { code: "ZA", days: 30, region: "Afrika" },
+];
+
+export const greenPassportCodes = new Set(greenPassportCountries.map((c) => c.code));

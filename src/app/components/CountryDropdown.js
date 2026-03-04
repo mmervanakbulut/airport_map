@@ -12,7 +12,9 @@ export default function CountryDropdown({ selected, onToggle, onClear }) {
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(
-    () => countryList.filter((c) => c.name.toLowerCase().includes(search.toLowerCase())),
+    () => countryList.filter((c) => 
+      c.name.toLocaleLowerCase("tr").includes(search.toLocaleLowerCase("tr"))
+    ),
     [search]
   );
 
