@@ -124,25 +124,15 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="h-[10vh] flex items-center justify-center bg-white dark:bg-zinc-900">
-        <p className="text-sm text-gray-500 mx-4">
-          © 2026
-          </p>
-        <a href="https://www.flypgs.com/" target="_blank" className="text-blue-500 hover:underline mx-4">
-          pegasus
-        </a>
-        <a href="https://ajet.com/tr" target="_blank" className="text-blue-500 hover:underline mx-4">
-          ajet
-        </a>
-        <a href="https://www.turkishairlines.com/tr-tr/" target="_blank" className="text-blue-500 hover:underline mx-4">
-          thy
-        </a>
-        <a href="https://www.wego.com.tr/en/flights" target="_blank" className="text-blue-500 hover:underline mx-4">
-          wego
-        </a>
-        <a href="https://www.enuygun.com/ucak-bileti/" target="_blank" className="text-blue-500 hover:underline mx-4">
-          enuygun
-        </a>
+      <footer className="flex flex-col items-center justify-center py-4 bg-white dark:bg-zinc-900">
+        <div className="flex items-center gap-4">
+          <a href="https://www.flypgs.com/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline text-base">pegasus</a>
+          <a href="https://ajet.com/tr" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline text-base">ajet</a>
+          <a href="https://www.turkishairlines.com/tr-tr/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline text-base">thy</a>
+          <a href="https://www.wego.com.tr/en/flights" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline text-base">wego</a>
+          <a href="https://www.enuygun.com/ucak-bileti/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline text-base">enuygun</a>
+        </div>
+        <p className="text-base text-gray-400 mt-2">© 2026</p>
       </footer>
     </div>
   );
