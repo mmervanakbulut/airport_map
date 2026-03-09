@@ -3,25 +3,20 @@
 import { useState, useMemo } from "react";
 import { countryList } from "@/app/airportData";
 
-/**
- * Ülkeye göre çoklu seçim dropdown'u — arama destekli.
- * @param {{ selected: string[], onToggle: (code: string) => void, onClear: () => void }} props
- */
-export default function CountryDropdown({ selected, onToggle, onClear }) {
-  const [open, setOpen] = useState(false);
+export default function CountryDropdown({ selected, onToggle, onClear, open, onOpenToggle }) {
   const [search, setSearch] = useState("");
 
   const filtered = useMemo(
-    () => countryList.filter((c) => 
+    () => countryList.filter((c) =>
       c.name.toLocaleLowerCase("tr").includes(search.toLocaleLowerCase("tr"))
     ),
     [search]
   );
 
   return (
-    <div className="relative">
+    <div className="relative" data-dropdown>
       <button
-        onClick={() => setOpen((o) => !o)}
+        onClick={onOpenToggle}
         className="px-4 py-2 rounded-md border border-zinc-300 dark:border-zinc-600 bg-white dark:bg-zinc-800 text-sm flex items-center gap-2"
       >
         🌍 Ülke{selected.length > 0 ? ` (${selected.length})` : " (Tümü)"}

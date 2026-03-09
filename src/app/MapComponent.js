@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { useMemo, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
@@ -19,6 +19,28 @@ const iconCache = Object.fromEntries(
     }),
   ])
 );
+
+function CtrlScrollZoom() {
+  const map = useMap();
+
+  useEffect(() => {
+    map.scrollWheelZoom.disable();
+
+    const handleWheel = (e) => {
+      if (e.ctrlKey) {
+        e.preventDefault();
+        if (e.deltaY < 0) map.zoomIn();
+        else map.zoomOut();
+      }
+    };
+
+    const container = map.getContainer();
+    container.addEventListener("wheel", handleWheel, { passive: false });
+    return () => container.removeEventListener("wheel", handleWheel);
+  }, [map]);
+
+  return null;
+}
 
 function AirportPopup({ airport }) {
   return (
@@ -54,6 +76,7 @@ export default function MapComponent({
       preferCanvas={true}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <CtrlScrollZoom />
       {/* <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" /> */}
 
       <MarkerClusterGroup chunkedLoading disableClusteringAtZoom={0}>
