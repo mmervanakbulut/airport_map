@@ -5,6 +5,7 @@ import { useAirportFilters } from "@/app/hooks/useAirportFilters";
 import TypeDropdown from "@/app/components/TypeDropdown";
 import CountryDropdown from "@/app/components/CountryDropdown";
 import { useState, useEffect } from "react";
+import { visaFreeCountriesByRegion } from "@/app/visaCountries";
 
 
 const MapComponent = dynamic(() => import("./MapComponent"), { ssr: false });
@@ -51,74 +52,48 @@ export default function Home() {
         <MapComponent selectedTypes={selectedTypes} selectedCountries={selectedCountries} />
       </main>
 
-      {/* Yeşil Pasaport Bilgisi */}
+      {/* Vizesiz ulkeler bilgisi */}
       <section className="px-8 py-6 bg-white dark:bg-zinc-900 border-t border-zinc-200 dark:border-zinc-700">
-        <h2 className="text-lg font-bold mb-4">Yeşil Pasaportla Vizesiz Gidilebilecek Ülkeler</h2>
+        <h2 className="text-lg font-bold mb-4">Vizesiz Gidilebilecek Ülkeler</h2>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-          {[
-            {
-              region: "Schengen",
-              countries: [
-                { name: "Almanya", days: 90 },
-                { name: "Fransa", days: 90 },
-                { name: "İtalya", days: 90 },
-                { name: "İspanya", days: 90 },
-                { name: "Yunanistan", days: 90 },
-                { name: "Hollanda", days: 90 },
-                { name: "İsviçre", days: 90 },
-              ],
-            },
-            {
-              region: "Avrupa",
-              countries: [
-                { name: "Bosna Hersek", days: 90 },
-                { name: "Sırbistan", days: 90 },
-                { name: "Karadağ", days: 90 },
-                { name: "Arnavutluk", days: 90 },
-                { name: "Gürcistan", days: 365 },
-                { name: "Ukrayna", days: 90 },
-              ],
-            },
-            {
-              region: "Asya & Orta Doğu",
-              countries: [
-                { name: "Japonya", days: 90 },
-                { name: "Güney Kore", days: 90 },
-                { name: "Singapur", days: 90 },
-                { name: "BAE", days: 90 },
-                { name: "Katar", days: 90 },
-                { name: "Azerbaycan", days: 90 },
-              ],
-            },
-            {
-              region: "Amerika",
-              countries: [
-                { name: "Brezilya", days: 90 },
-                { name: "Arjantin", days: 90 },
-                { name: "Kolombiya", days: 90 },
-              ],
-            },
-            {
-              region: "Afrika",
-              countries: [
-                { name: "Fas", days: 90 },
-                { name: "Güney Afrika", days: 30 },
-              ],
-            },
-          ].map(({ region, countries }) => (
+          {visaFreeCountriesByRegion.map(({ region, countries }) => (
             <div key={region}>
               <h3 className="text-sm font-bold text-zinc-500 dark:text-zinc-400 uppercase tracking-wide mb-2">
                 {region}
               </h3>
-              <ul className="space-y-1">
-                {countries.map(({ name, days }) => (
-                  <li key={name} className="flex items-center justify-between text-base font-bold">
-                    <span>{name}</span>
-                    <span className="text-base text-green-600 font-semibold ml-2">{days}g</span>
-                  </li>
-                ))}
-              </ul>
+
+              {countries.some((c) => !c.bordo) && (
+                <>
+                  <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1">Sadece Yeşil</p>
+                  <ul className="space-y-1 mb-3">
+                    {countries
+                      .filter((c) => !c.bordo)
+                      .map(({ name, days }) => (
+                        <li key={name} className="flex items-center justify-between text-base font-bold">
+                          <span>{name}</span>
+                          <span className="text-base text-green-600 font-semibold ml-2">{days}g</span>
+                        </li>
+                      ))}
+                  </ul>
+                </>
+              )}
+
+              {countries.some((c) => c.bordo) && (
+                <>
+                  <p className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 mb-1">Yeşil & Bordo</p>
+                  <ul className="space-y-1">
+                    {countries
+                      .filter((c) => c.bordo)
+                      .map(({ name, days }) => (
+                        <li key={name} className="flex items-center justify-between text-base font-bold">
+                          <span>{name}</span>
+                          <span className="text-base text-blue-600 font-semibold ml-2">{days}g</span>
+                        </li>
+                      ))}
+                  </ul>
+                </>
+              )}
             </div>
           ))}
         </div>
